@@ -6,15 +6,15 @@
  * @copyright       Complexity Software
  */
 
-namespace DimeboxApiPhp;
+namespace SpryngPaymentsApiPhp;
 
 /**
  * PSR-0 Autoloader for Composer
  *
- * Class Dimebox_Api_Autoloader
- * @package DimeboxApiHttpPhp
+ * Class Spryng_Payments_Api_Autoloader
+ * @package SpryngPaymentsApiHttpPhp
  */
-class Dimebox_Api_Autoloader
+class Spryng_Payments_Api_Autoloader
 {
     /**
      * Finds all classes and requires them
@@ -23,7 +23,7 @@ class Dimebox_Api_Autoloader
      */
     public static function autoload ($class_name)
     {
-        if (strpos($class_name, "Dimebox_") === 0)
+        if (strpos($class_name, "Spryng_Payments_") === 0)
         {
             $file_name = str_replace("_", "/", $class_name);
             $file_name = realpath(dirname(__FILE__) . "/../../{$file_name}.php");

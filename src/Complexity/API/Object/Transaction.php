@@ -6,13 +6,13 @@
  * @copyright       Complexity Software
  */
 
-namespace DimeboxApiPhp\Object;
+namespace SpryngPaymentsApiPhp\Object;
 
 /**
- * Class Dimebox_Api_Object_Transaction
- * @package DimeboxApiPhp\Object
+ * Class Spryng_Payments_Api_Object_Transaction
+ * @package SpryngPaymentsApiPhp\Object
  */
-class Dimebox_Api_Object_Transaction
+class Spryng_Payments_Api_Object_Transaction
 {
     /**
      * Transaction reference available for traceability and reconciliation. Gateway generated value.
@@ -61,14 +61,14 @@ class Dimebox_Api_Object_Transaction
     /**
      * The corresponding Card object.
      *
-     * @var Dimebox_Api_Object_Card
+     * @var Spryng_Payments_Api_Object_Card
      */
     public $card;
 
     /**
      * The corresponding Cardholder Authentication Verification Value.
      *
-     * @var Dimebox_Api_Object_Cavv2
+     * @var string
      */
     public $cavv2;
 
@@ -89,7 +89,7 @@ class Dimebox_Api_Object_Transaction
     /**
      * The corresponding Customer object, if available
      *
-     * @var Dimebox_Api_Object_Customer
+     * @var Spryng_Payments_Api_Object_Customer
      */
     public $customer;
 
@@ -160,14 +160,14 @@ class Dimebox_Api_Object_Transaction
     /**
      * The name of the payment product used. For example: iDeal, card, etc.
      *
-     * @var Dimebox_Api_Object_Payment_Product
+     * @var Spryng_Payments_Api_Object_Payment_Product
      */
     public $payment_product;
 
     /**
      * The type of the payment product used. For example: Visa, Mastercard, etc.
      *
-     * @var Dimebox_Api_Object_Payment_Product
+     * @var Spryng_Payments_Api_Object_Payment_Product
      */
     public $payment_product_type;
 
@@ -203,7 +203,7 @@ class Dimebox_Api_Object_Transaction
      * The current state of the transaction. Can be one of 'AUTHORIZED', 'SENT_FOR_SETTLEMENT', 'SETTLED', 'FAILED',
      * 'GATEWAY_REJECTED', 'PROCESSOR_DECLINED', 'AUTHORIZATION_EXPIRED', 'VOIDED' or ‘EXPIRED’.
      *
-     * @var Dimebox_Api_Object_Transaction_Status
+     * @var Spryng_Payments_Api_Object_Transaction_Status
      */
     public $status;
 

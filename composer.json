@@ -1,6 +1,6 @@
 {
-    "name": "complexity/dimebox-api-php",
-    "description": "A PHP interface to the Dimebox payment platform",
+    "name": "complexity/spryng-payments-api-php",
+    "description": "A PHP interface to the Spryng Payments platform",
     "license": "BSD-2-Clause",
     "authors": [
         {

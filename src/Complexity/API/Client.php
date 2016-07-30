@@ -6,11 +6,11 @@
  * @copyright       Complexity Software
  */
 
-namespace DimeboxApiPhp;
+namespace SpryngPaymentsApiPhp;
 
-class Dimebox_Api_Client
+class Spryng_Payments_Api_Client
 {
     const CLIENT_VERSION = "1.0";
 
-    const API_ENDPOINT = "https://spryng.dimebox.com";
+    const API_ENDPOINT = "https://api.spryngpayments.com";
 }

@@ -6,13 +6,13 @@
  * @copyright       Complexity Software
  */
 
-namespace DimeboxApiPhp\Object;
+namespace SpryngPaymentsApiPhp\Object;
 
 /**
- * Class Dimebox_Api_Object_Customer_Address
- * @package DimeboxApiPhp\Object
+ * Class Spryng_Payments_Api_Object_Customer_Address
+ * @package SpryngPaymentsApiPhp\Object
  */
-class Dimebox_Api_Object_Customer_Address
+class Spryng_Payments_Api_Object_Customer_Address
 {
     /**
      * A customer can have many address objects. e.g. Shipping, Billing, Office or Home.

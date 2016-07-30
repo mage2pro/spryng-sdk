@@ -6,13 +6,13 @@
  * @copyright       Complexity Software
  */
 
-namespace DimeboxApiPhp\Object;
+namespace SpryngPaymentsApiPhp\Object;
 
 /**
- * Class Dimebox_Api_Object_Card
- * @package DimeboxApiPhp\Object
+ * Class Spryng_Payments_Api_Object_Card
+ * @package SpryngPaymentsApiPhp\Object
  */
-class Dimebox_Api_Object_Card
+class Spryng_Payments_Api_Object_Card
 {
     /**
      * The The Bank Identification Number.
@@ -38,7 +38,7 @@ class Dimebox_Api_Object_Card
     /**
      * Indicates the customer the card belongs to.
      *
-     * @var Dimebox_Api_Object_Customer
+     * @var Spryng_Payments_Api_Object_Customer
      */
     public $customer;
 
