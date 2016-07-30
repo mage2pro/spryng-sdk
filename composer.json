@@ -1,0 +1,20 @@
+{
+    "name": "complexity/dimebox-api-php",
+    "description": "A PHP interface to the Dimebox payment platform",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Complexity",
+            "email": "contact@roemerbakker.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^6.2"
+    },
+    "autoload": {
+        "psr-0": {
+            "Complexity": "src/"
+        }
+    }
+}
