@@ -12,7 +12,7 @@ namespace SpryngPaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Credit_Fund_Transfer
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Credit_Fund_Transfer
+class Credit_Fund_Transfer
 {
     /**
      * @var

@@ -10,11 +10,12 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "phpunit/phpunit": "^5.5"
     },
     "autoload": {
-        "psr-0": {
-            "Complexity": "src/"
+        "psr-4": {
+            "SpryngPaymentsApiPhp\\": "src/Complexity/SpryngPaymentsApiPhp/"
         }
     }
 }

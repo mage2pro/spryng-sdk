@@ -12,7 +12,7 @@ namespace Spryng_PaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Refund
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Refund
+class Refund
 {
     /**
      * Gateway generated value for identifying individual chargebacks.

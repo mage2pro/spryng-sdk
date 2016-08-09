@@ -12,7 +12,7 @@ namespace SpryngPaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Chargeback
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Chargeback
+class Chargeback
 {
     /**
      * Gateway generated value for identifying individual chargebacks.
@@ -24,7 +24,7 @@ class Spryng_Payments_Api_Object_Chargeback
     /**
      * The account object to which the chargeback relates.
      *
-     * @var Spryng_Payments_Api_Object_Account
+     * @var Account
      */
     public $account;
 
@@ -52,7 +52,7 @@ class Spryng_Payments_Api_Object_Chargeback
     /**
      * Object representing the original transaction.
      *
-     * @var Spryng_Payments_Api_Object_Transaction
+     * @var Transaction
      */
     public $transaction;
 }

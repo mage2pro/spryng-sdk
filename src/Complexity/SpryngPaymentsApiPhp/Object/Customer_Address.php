@@ -12,7 +12,7 @@ namespace SpryngPaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Customer_Address
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Customer_Address
+class Customer_Address
 {
     /**
      * A customer can have many address objects. e.g. Shipping, Billing, Office or Home.

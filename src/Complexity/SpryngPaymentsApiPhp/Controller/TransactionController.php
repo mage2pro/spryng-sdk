@@ -7,15 +7,15 @@
  */
 
 namespace SpryngPaymentsApiPhp\Controller;
-use SpryngPaymentsApiPhp\Object\Spryng_Payments_Api_Object_Transaction;
-use SpryngPaymentsApiPhp\Spryng_Payments_Api_Client;
-use SpryngPaymentsApiPhp\Utility\Spryng_Payments_Api_Utility_RequestHandler;
+use SpryngPaymentsApiPhp\Object\Transaction;
+use SpryngPaymentsApiPhp\Client;
+use SpryngPaymentsApiPhp\Utility\RequestHandler;
 
 /**
  * Class Spryng_Payments_Api_Controller_Transaction
  * @package SpryngPaymentsApiPhp\Controller
  */
-class Spryng_Payments_Api_Controller_Transaction extends Spryng_Payments_Api_Controller_BaseController
+class TransactionController extends BaseController
 {
 
     const TRANSACTION_URI = "/transaction";
@@ -23,19 +23,19 @@ class Spryng_Payments_Api_Controller_Transaction extends Spryng_Payments_Api_Con
     /**
      * Global request handler instance
      *
-     * @var Spryng_Payments_Api_Utility_RequestHandler
+     * @var RequestHandler
      */
     public $requestHandler;
 
     /**
      * Spryng_Payments_Api_Controller_Transaction constructor.
-     * @param Spryng_Payments_Api_Client $api
+     * @param Client $api
      */
-    public function __construct(Spryng_Payments_Api_Client $api)
+    public function __construct(Client $api)
     {
         parent::__construct($api);
 
-        $this->requestHandler = new Spryng_Payments_Api_Utility_RequestHandler();
+        $this->requestHandler = new RequestHandler();
         $this->requestHandler->addHeader($this->api->getApiKey(), 'X-APIKEY', false);
     }
 
@@ -60,10 +60,12 @@ class Spryng_Payments_Api_Controller_Transaction extends Spryng_Payments_Api_Con
         {
             //TODO Parse transactions
 
-            $transactionObj = new Spryng_Payments_Api_Object_Transaction();
+            $transactionObj = new Transaction();
             $transactionObj->_id = $transaction['_id'];
 
             array_push($transactions, $transaction);
         }
+
+        return $response;
     }
 }

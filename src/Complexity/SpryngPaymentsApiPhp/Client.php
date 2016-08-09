@@ -8,13 +8,13 @@
 
 namespace SpryngPaymentsApiPhp;
 
-use SpryngPaymentsApiPhp\Controller\Spryng_Payments_Api_Controller_Transaction;
+use SpryngPaymentsApiPhp\Controller\TransactionController;
 
-class Spryng_Payments_Api_Client
+class Client
 {
     const CLIENT_VERSION = "1.0";
 
-    const API_ENDPOINT = "https://spryng.dimebox.com";
+    const API_ENDPOINT = "https://spryng.dimebox.com/v1";
 
     /**
      * @var string
@@ -24,7 +24,7 @@ class Spryng_Payments_Api_Client
     /**
      * Public instance of the Transaction Controller
      *
-     * @var Spryng_Payments_Api_Controller_Transaction;
+     * @var TransactionController
      */
     public $transaction;
 
@@ -43,7 +43,7 @@ class Spryng_Payments_Api_Client
     {
         $this->setApiKey($apiKey);
 
-        $this->transaction = new Spryng_Payments_Api_Controller_Transaction($this);
+        $this->transaction = new TransactionController($this);
     }
 
     /**

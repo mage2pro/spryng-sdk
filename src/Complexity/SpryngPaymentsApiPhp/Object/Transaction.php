@@ -12,7 +12,7 @@ namespace SpryngPaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Transaction
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Transaction
+class Transaction
 {
     /**
      * Transaction reference available for traceability and reconciliation. Gateway generated value.

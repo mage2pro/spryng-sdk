@@ -12,7 +12,7 @@ namespace SpryngPaymentsApiPhp\Object;
  * Class Spryng_Payments_Api_Object_Card
  * @package SpryngPaymentsApiPhp\Object
  */
-class Spryng_Payments_Api_Object_Card
+class Card
 {
     /**
      * The The Bank Identification Number.
@@ -38,7 +38,7 @@ class Spryng_Payments_Api_Object_Card
     /**
      * Indicates the customer the card belongs to.
      *
-     * @var Spryng_Payments_Api_Object_Customer
+     * @var Customer
      */
     public $customer;
 

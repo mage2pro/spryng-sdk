@@ -14,7 +14,7 @@ use GuzzleHttp\Client;
  * Class Spryng_Api_Utilities_RequestHandler
  * @package SpryngApiHttpPhp\Utilities
  */
-class Spryng_Payments_Api_Utility_RequestHandler
+class RequestHandler
 {
 
     /**
@@ -97,11 +97,15 @@ class Spryng_Payments_Api_Utility_RequestHandler
                     $url .= '&';
                 }
             }
-
-            $req = $this->httpClient->request($this->getHttpMethod(), $url);
-
-            $this->setResponse( (string) $req->getBody() );
         }
+
+        $req = $this->httpClient->request($this->getHttpMethod(), $url, [
+            'headers' => [
+                $this->getHeaders()
+            ]
+        ]);
+
+        $this->setResponse( (string) $req->getBody() );
     }
 
     /**
