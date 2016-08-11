@@ -7,7 +7,9 @@
  */
 
 namespace SpryngPaymentsApiPhp\Controller;
+
 use SpryngPaymentsApiPhp\Client;
+use SpryngPaymentsApiPhp\Utility\RequestHandler;
 
 /**
  * Class Spryng_Payments_Api_Controller_BaseController
@@ -15,25 +17,13 @@ use SpryngPaymentsApiPhp\Client;
  */
 class BaseController
 {
-
     /**
      * @var Client
      */
     protected $api;
 
-    /**
-     * @var string
-     */
-    protected $resourcePath;
-
     public function __construct(Client $api)
     {
         $this->api = $api;
-
-        if (empty($this->resourcePath))
-        {
-            $class_parts         = explode("_", get_class($this));
-            $this->resourcePath = strtolower(end($class_parts));
-        }
     }
 }

@@ -7,6 +7,7 @@
  */
 
 namespace SpryngPaymentsApiPhp\Object;
+use SpryngPaymentsApiPhp\Exception\TransactionException;
 
 /**
  * Class Spryng_Payments_Api_Object_Transaction
@@ -61,7 +62,7 @@ class Transaction
     /**
      * The corresponding Card object.
      *
-     * @var Spryng_Payments_Api_Object_Card
+     * @var Card
      */
     public $card;
 
@@ -82,14 +83,14 @@ class Transaction
     /**
      * Defined by gateway upon creation of the transaction. Does not include timezone.
      *
-     * @var Date
+     * @var \DateTime
      */
     public $created_at;
 
     /**
      * The corresponding Customer object, if available
      *
-     * @var Spryng_Payments_Api_Object_Customer
+     * @var Customer
      */
     public $customer;
 

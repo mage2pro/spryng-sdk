@@ -9,6 +9,8 @@
 namespace SpryngPaymentsApiPhp\Utility;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use SpryngPaymentsApiPhp\Exception\RequestException;
 
 /**
  * Class Spryng_Api_Utilities_RequestHandler
@@ -57,7 +59,7 @@ class RequestHandler
      *
      * @var array
      */
-    protected $headers = array();
+    protected $headers;
 
     /**
      * Response from the request
@@ -100,12 +102,26 @@ class RequestHandler
         }
 
         $req = $this->httpClient->request($this->getHttpMethod(), $url, [
-            'headers' => [
-                $this->getHeaders()
-            ]
+            'headers' => $this->getHeaders()
         ]);
 
-        $this->setResponse( (string) $req->getBody() );
+        $this->setResponse((string) $req->getBody());
+    }
+
+    /**
+     * @return Client
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClient;
+    }
+
+    /**
+     * @param Client $httpClient
+     */
+    public function setHttpClient($httpClient)
+    {
+        $this->httpClient = $httpClient;
     }
 
     /**
@@ -236,20 +252,10 @@ class RequestHandler
      * Set all headers at once
      *
      * @param $headers
-     * @param bool|false $parse
      */
-    public function setHeaders($headers, $parse = false)
+    public function setHeaders($headers)
     {
-        $this->getParameters = array();
-        if ($parse) {
-            foreach ($headers as $key => $parameter)
-            {
-                $this->getParameters[$key] = urlencode($parameter);
-            }
-        }
-        else {
-            $this->getParameters = $headers;
-        }
+        $this->headers = $headers;
     }
 
     /**
@@ -257,23 +263,10 @@ class RequestHandler
      *
      * @param $value
      * @param null $key
-     * @param bool|false $parse
      */
-    public function addHeader($value, $key = null, $parse = false)
+    public function addHeader($value, $key)
     {
-        if ($parse)
-        {
-            $value = urlencode($value);
-        }
-
-        if ($key === null)
-        {
-            array_push($this->headers, $value);
-        }
-        else
-        {
-            $this->headers[$key] = $value;
-        }
+        $this->headers[$key] = $value;
     }
 
     /**
