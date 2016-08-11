@@ -15,6 +15,13 @@ namespace SpryngPaymentsApiPhp\Object;
 class Card
 {
     /**
+     * The card's unique identifier.
+     *
+     * @var string
+     */
+    public $_id;
+
+    /**
      * The The Bank Identification Number.
      *
      * @var string
