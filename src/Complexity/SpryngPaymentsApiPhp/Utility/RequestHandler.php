@@ -55,6 +55,13 @@ class RequestHandler
     protected $getParameters = array();
 
     /**
+     * Array of POST parameters
+     *
+     * @var array
+     */
+    protected $postParameters = array();
+
+    /**
      * Array of HTTP Headers
      *
      * @var array
@@ -77,10 +84,26 @@ class RequestHandler
         $this->httpClient = new Client();
     }
 
+    public function doRequest()
+    {
+        switch($this->getHttpMethod())
+        {
+            case 'GET':
+                $this->doGetRequest();
+                break;
+            case 'POST':
+                $this->doPostRequest();
+                break;
+            default:
+                throw new RequestException("Invalid HTTP method.", 102);
+                break;
+        }
+    }
+
     /**
      * Formats the URL and executes the request
      */
-    public function doRequest ()
+    private function doGetRequest ()
     {
         $url = $this->getBaseUrl() . $this->getQueryString();
 
@@ -101,9 +124,41 @@ class RequestHandler
             }
         }
 
-        $req = $this->httpClient->request($this->getHttpMethod(), $url, [
+        $req = $this->httpClient->request('GET', $url, [
             'headers' => $this->getHeaders()
         ]);
+
+        $this->setResponse((string) $req->getBody());
+    }
+
+    /**
+     * Executes a POST request
+     */
+    private function doPostRequest()
+    {
+        $url = $this->getBaseUrl() . $this->getQueryString();
+
+        if ( count( $this->getGetParameters () ) > 0 )
+        {
+            $url .= '?';
+
+            $iterator = 0;
+            foreach ( $this->getGetParameters() as $key => $parameter )
+            {
+                $iterator++;
+                $url .= $key . '=' . $parameter;
+
+                if ( $iterator != count ( $this->getGetParameters() ) )
+                {
+                    $url .= '&';
+                }
+            }
+        }
+
+        $req = $this->httpClient->request('POST', $url, array(
+            'headers'       => $this->getHeaders(),
+            'form_params'   => $this->getPostParameters()
+        ));
 
         $this->setResponse((string) $req->getBody());
     }
@@ -235,6 +290,60 @@ class RequestHandler
         else
         {
             $this->getParameters[$key] = $value;
+        }
+    }
+
+    /**
+     * Returns all POST parameters as array
+     *
+     * @return array
+     */
+    public function getPostParameters()
+    {
+        return $this->postParameters;
+    }
+
+    /**
+     * Sets all POST parameters at once.
+     *
+     * @param $postParameters
+     * @param bool|false $parse
+     */
+    public function setPostParameters($postParameters, $parse = false)
+    {
+        $this->postParameters = array();
+        if ($parse) {
+            foreach ($postParameters as $key => $parameter)
+            {
+                $this->postParameters[$key] = urlencode($parameter);
+            }
+        }
+        else {
+            $this->postParameters = $postParameters;
+        }
+    }
+
+    /**
+     * Adds a single POST parameter
+     *
+     * @param $value
+     * @param null $key
+     * @param bool|false $parse
+     */
+    public function addPostParameter($value, $key = null, $parse = false)
+    {
+        if ($parse)
+        {
+            $value = urlencode($value);
+        }
+
+        if ($key === null)
+        {
+            array_push($this->postParameters, $value);
+        }
+        else
+        {
+            $this->postParameters[$key] = $value;
         }
     }
 

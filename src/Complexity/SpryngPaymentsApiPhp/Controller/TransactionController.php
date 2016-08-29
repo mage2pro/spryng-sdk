@@ -93,4 +93,30 @@ class TransactionController extends BaseController
 
         return $transaction;
     }
+
+    /**
+     * @param $arguments
+     * @return Transaction
+     * @throws TransactionException
+     * @throws \SpryngPaymentsApiPhp\Exception\RequestException
+     */
+    public function create($arguments)
+    {
+        TransactionHelper::validateNewTransactionArguments($arguments);
+
+        $http = new RequestHandler();
+        $http->setHttpMethod("POST");
+        $http->setBaseUrl($this->api->getApiEndpoint());
+        $http->setQueryString(static::TRANSACTION_URI);
+        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
+        $http->setPostParameters($arguments, false);
+        $http->doRequest();
+
+        $reponse = $http->getResponse();
+
+        $jsonResponse = json_decode($reponse);
+        $newTransaction = TransactionHelper::fillTransaction($jsonResponse);
+
+        return $newTransaction;
+    }
 }
