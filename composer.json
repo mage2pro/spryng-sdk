@@ -1,5 +1,5 @@
 {
-    "name": "complexity/spryng-payments-api-php",
+    "name": "spryng/spryng-payments-api-php",
     "description": "A PHP interface to the Spryng Payments platform",
     "license": "BSD-2-Clause",
     "authors": [
