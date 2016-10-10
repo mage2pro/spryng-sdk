@@ -66,6 +66,10 @@ class TransactionHelper
         return $obj;
     }
 
+    /**
+     * @param $arguments
+     * @throws TransactionException
+     */
     public static function validateNewTransactionArguments($arguments)
     {
         if (!isset($arguments['account']))

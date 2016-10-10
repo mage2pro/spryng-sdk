@@ -9,14 +9,12 @@
 namespace SpryngPaymentsApiPhp\Controller;
 use SpryngPaymentsApiPhp\Exception\TransactionException;
 use SpryngPaymentsApiPhp\Helpers\TransactionHelper;
-use SpryngPaymentsApiPhp\Object\Account;
-use SpryngPaymentsApiPhp\Object\Card;
 use SpryngPaymentsApiPhp\Object\Transaction;
 use SpryngPaymentsApiPhp\Client;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
 
 /**
- * Class Spryng_Payments_Api_Controller_Transaction
+ * Class TransactionController
  * @package SpryngPaymentsApiPhp\Controller
  */
 class TransactionController extends BaseController
@@ -112,9 +110,9 @@ class TransactionController extends BaseController
         $http->setPostParameters($arguments, false);
         $http->doRequest();
 
-        $reponse = $http->getResponse();
+        $response = $http->getResponse();
 
-        $jsonResponse = json_decode($reponse);
+        $jsonResponse = json_decode($response);
         $newTransaction = TransactionHelper::fillTransaction($jsonResponse);
 
         return $newTransaction;

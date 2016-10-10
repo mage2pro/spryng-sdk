@@ -8,6 +8,7 @@
 
 namespace SpryngPaymentsApiPhp;
 
+use SpryngPaymentsApiPhp\Controller\CardController;
 use SpryngPaymentsApiPhp\Controller\TransactionController;
 
 class Client
@@ -29,6 +30,13 @@ class Client
     public $transaction;
 
     /**
+     * Public instance of the Card Controller
+     *
+     * @var CardController
+     */
+    public $card;
+
+    /**
      * API key to authenticate user
      *
      * @var string
@@ -43,7 +51,8 @@ class Client
     {
         $this->setApiKey($apiKey);
 
-        $this->transaction = new TransactionController($this);
+        $this->transaction  = new TransactionController($this);
+        $this->card         = new CardController($this);
     }
 
     /**

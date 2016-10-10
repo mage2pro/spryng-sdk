@@ -4,6 +4,10 @@ namespace SpryngPaymentsApiPhp\Exception;
 
 use SpryngPaymentsApiPhp\SpryngPaymentsException;
 
+/**
+ * Class TransactionException
+ * @package SpryngPaymentsApiPhp\Exception
+ */
 class TransactionException extends SpryngPaymentsException
 {
     const NO_ACCOUNT_ON_RECORD          = 201;
