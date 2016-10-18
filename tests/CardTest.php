@@ -5,7 +5,7 @@ use SpryngPaymentsApiPhp\Client;
 
 class CardTest extends TestCase
 {
-    const TEST_API_KEY              = '8L0E94HxdHmApEoUggHbHgjQ7rdewcX1BxEXlKx_4Gw';
+    const TEST_API_KEY              = '';
 
     const TEST_CREATE_ARGUMENTS     = array(
         'card_number'   => '1234 5678 9101 1121',

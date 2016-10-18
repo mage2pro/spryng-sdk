@@ -5,25 +5,25 @@ use SpryngPaymentsApiPhp\Client;
 
 class TransactionTest extends TestCase
 {
-    const TEST_API_KEY              = '8L0E94HxdHmApEoUggHbHgjQ7rdewcX1BxEXlKx_4Gw';
+    const TEST_API_KEY              = '';
 
-    const TEST_TRANSACTION_ID       = '5784b3804cb8e3330453be9a';
+    const TEST_TRANSACTION_ID       = '';
 
     const TEST_CREATE_ARGUMENTS     = array(
-        'account'               => '54884a22e1e6573d1d1ee001',
-        'amount'                => '150',
-        'card'                  => '57b1a3f1f25330a814b3111a',
-        'customer_ip'           => '84.84.166.104',
-        'dynamic_descriptor'    => 'card',
+        'account'               => '',
+        'amount'                => '10000',
+        'card'                  => '',
+        'customer_ip'           => '127.0.0.1',
+        'dynamic_descriptor'    => 'Test transaction',
         'payment_product'       => 'card',
-        'user_agent'            => 'SpryngPaymentsApiPhp'
+        'user_agent'            => 'SpryngPaymentsApiPhp/0.1'
     );
 
     protected $client;
 
     public function setUp()
     {
-        $this->client = new Client(static::TEST_API_KEY);
+        $this->client = new Client(static::TEST_API_KEY, true);
     }
 
     public function testExceptionIsRaisedOnContruction()

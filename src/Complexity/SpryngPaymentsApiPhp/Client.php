@@ -15,12 +15,13 @@ class Client
 {
     const CLIENT_VERSION = "1.0";
 
-    const API_ENDPOINT = "https://spryng.dimebox.com/v1";
+    const API_ENDPOINT_PRODUCTION   = "https://spryngpayments.com/v1";
+    const API_ENDPOINT_SANDBOX      = "https://sandbox.spryngpayments.com/v1";
 
     /**
      * @var string
      */
-    protected $apiEndpoint = self::API_ENDPOINT;
+    protected $apiEndpoint;
 
     /**
      * Public instance of the Transaction Controller
@@ -47,9 +48,18 @@ class Client
      * Spryng_Payments_Api_Client constructor.
      * @param $apiKey
      */
-    public function __construct($apiKey)
+    public function __construct($apiKey, $sandbox = false)
     {
         $this->setApiKey($apiKey);
+
+        if ( $sandbox )
+        {
+            $this->setApiEndpoint(self::API_ENDPOINT_SANDBOX);
+        }
+        else
+        {
+            $this->setApiEndpoint(self::API_ENDPOINT_PRODUCTION);
+        }
 
         $this->transaction  = new TransactionController($this);
         $this->card         = new CardController($this);
@@ -77,5 +87,13 @@ class Client
     public function getApiEndpoint()
     {
         return $this->apiEndpoint;
+    }
+
+    /**
+     * @param string $apiEndpoint
+     */
+    public function setApiEndpoint($apiEndpoint)
+    {
+        $this->apiEndpoint = $apiEndpoint;
     }
 }
