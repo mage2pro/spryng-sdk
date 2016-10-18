@@ -43,19 +43,14 @@ class CardHelper
             throw new CardException("Card number is not formatted correctly.", 302);
         }
 
-        // Itterate through each block of numbers to check weither they contain characters and have the right length.
-        $blocks = explode(' ', $arguments['card_number']);
-        foreach($blocks as $block)
+        if (! ctype_digit( str_replace(' ', '', $arguments['card_number'] ) ) )
         {
-            if (!ctype_digit($block))
-            {
-                throw new CardException("Card number is not formatted correctly", 302);
-            }
+            throw new CardException("Card number is not formatted correctly.", 302);
+        }
 
-            if (strlen($block) !== 4)
-            {
-                throw new CardException("Card number is not formatted correctly.", 302);
-            }
+        if (strlen( (string) str_replace(' ', '', $arguments['card_number'] ) ) != 16 )
+        {
+            throw new CardException("Card number is not formatted correctly.", 302);
         }
 
         if (!isset($arguments['cvv']))

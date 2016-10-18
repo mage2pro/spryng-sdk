@@ -8,17 +8,17 @@ class CardTest extends TestCase
     const TEST_API_KEY              = '';
 
     const TEST_CREATE_ARGUMENTS     = array(
-        'card_number'   => '1234 5678 9101 1121',
+        'card_number'   => '4024007108173153',
         'cvv'           => '123',
         'expiry_month'  => '12',
-        'expiry_year'   => '2017'
+        'expiry_year'   => '17'
     );
 
     protected $client;
 
     public function setUp()
     {
-        $this->client = new Client(static::TEST_API_KEY);
+        $this->client = new Client(static::TEST_API_KEY, true);
     }
 
     public function testExceptionIsRaisedOnContruction()
@@ -31,8 +31,6 @@ class CardTest extends TestCase
         $card = $this->client->card->create(static::TEST_CREATE_ARGUMENTS);
 
         $this->assertInstanceOf('SpryngPaymentsApiPhp\Object\Card', $card);
-
-        $args = static::TEST_CREATE_ARGUMENTS;
     }
 
 }
