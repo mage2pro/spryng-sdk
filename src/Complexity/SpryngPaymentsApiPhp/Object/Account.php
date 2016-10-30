@@ -15,72 +15,93 @@ namespace SpryngPaymentsApiPhp\Object;
 class Account
 {
     /**
-     * The ID of the account
+     * The unique ID identifying the account
      *
      * @var string
      */
     public $_id;
 
     /**
-     * An optional organisation
+     * The ID of the organisation the account belongs to
      *
      * @var string
      */
     public $organisation;
 
     /**
-     * Name of the account or account holder
+     * The name of the account
      *
      * @var string
      */
     public $name;
 
     /**
-     * ISO currency code
+     * The account's currency
      *
-     * @var string
+     * @var string <ISO 4217>
      */
     public $currency_code;
 
     /**
-     * Fee for chargebacks
+     * Array containing the configuration parameters of it's processors
      *
-     * @var float
+     * @var array
      */
-    public $chargeback_fee;
+    public $processors_configurations = array();
 
     /**
-     * Monthly fee for holding the account
+     * Array containing the account's processors
+     *
+     * @var array
+     */
+    public $processors = array();
+
+    /**
+     * Monthly fee for the account
      *
      * @var int
      */
     public $monthly_fee;
 
     /**
-     * Fee for refunds
+     * A list of fee descriptions for each available payment method
      *
-     * @var float
-     */
-    public $refund_fee;
-
-    /**
-     * @var float
-     */
-    public $transacion_fee_fixed;
-
-    /**
-     * @var float
-     */
-    public $transaction_fee_percentage;
-
-    /**
      * @var array
      */
-    public $processors_configurations;
+    public $service_fees = array();
 
     /**
-     * @var array
+     * A description of the account
+     *
+     * @var string
      */
-    public $processors;
+    public $description;
 
+    /**
+     * Routing ruleset for the account
+     *
+     * @var string
+     */
+    public $route_rule_set;
+
+    /**
+     * A webhook URL that is called when a chargeback is updated
+     *
+     * @var string
+     */
+    public $webhook_chargeback_update;
+
+    /**
+     * A webhook url that is called when a refund is updated
+     *
+     * @var string
+     */
+    public $webhook_refund_update;
+
+    /**
+     * A webhook url that is called when a transaction is updated
+     *
+     * @var string
+     */
+    public $webhook_transaction_update;
 }
