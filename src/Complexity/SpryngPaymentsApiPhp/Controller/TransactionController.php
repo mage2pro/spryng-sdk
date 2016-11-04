@@ -22,6 +22,8 @@ class TransactionController extends BaseController
 
     const TRANSACTION_URI = "/transaction";
 
+    const REFUND_TRANSACTION_URI = "/refund";
+
     const ACCOUNT_SEARCH_URI = '/account?_id=';
 
     /**
@@ -60,6 +62,43 @@ class TransactionController extends BaseController
         }
 
         return $transactions;
+    }
+
+    /**
+     * (partly) Refund a transaction
+     *
+     * @param $transactionId
+     * @param null $amount
+     * @param null $reason
+     * @return bool
+     * @throws TransactionException
+     * @throws \SpryngPaymentsApiPhp\Exception\RequestException
+     */
+    public function refund($transactionId, $amount = null, $reason = null)
+    {
+        $queryString = self::TRANSACTION_URI . '/'. $transactionId . self::REFUND_TRANSACTION_URI;
+        $arguments = array();
+
+        if (is_null($amount))
+        {
+            $amount = $this->getTransactionById($transactionId)->amount;
+        }
+        $arguments['amount'] = $amount;
+
+        if ($reason != '' && !is_null($reason))
+        {
+            $arguments['reason'] = $reason;
+        }
+
+        $http = new RequestHandler();
+        $http->setHttpMethod("POST");
+        $http->setBaseUrl($this->api->getApiEndpoint());
+        $http->setQueryString($queryString);
+        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
+        $http->setPostParameters($arguments);
+        $http->doRequest();
+
+        return $http->getResponseCode() == 200 ? true : false;
     }
 
     /**

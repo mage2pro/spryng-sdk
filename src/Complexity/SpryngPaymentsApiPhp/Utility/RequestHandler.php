@@ -76,6 +76,13 @@ class RequestHandler
     protected $response;
 
     /**
+     * Response code from the server
+     *
+     * @var int
+     */
+    protected $responseCode;
+
+    /**
      * Spryng_Payments_Api_Utility_RequestHandler constructor.
      * Creates instance of GuzzleHttp\Client
      */
@@ -129,6 +136,7 @@ class RequestHandler
         ]);
 
         $this->setResponse((string) $req->getBody());
+        $this->setResponseCode($req->getStatusCode());
     }
 
     /**
@@ -161,6 +169,7 @@ class RequestHandler
         ));
 
         $this->setResponse((string) $req->getBody());
+        $this->setResponseCode($req->getStatusCode());
     }
 
     /**
@@ -396,5 +405,21 @@ class RequestHandler
     public function setResponse($response)
     {
         $this->response = $response;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
+
+    /**
+     * @param int $responseCode
+     */
+    public function setResponseCode($responseCode)
+    {
+        $this->responseCode = $responseCode;
     }
 }
