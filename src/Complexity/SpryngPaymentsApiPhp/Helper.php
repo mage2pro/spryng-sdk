@@ -16,7 +16,7 @@ abstract class Helper
      * @param array $jsonObject
      * @return mixed
      */
-    abstract public static function fill($jsonObject);
+    public static function fill($jsonObject) {return null;}
 
     /**
      * Validates if a create request is complete and valid
@@ -24,5 +24,5 @@ abstract class Helper
      * @param array $arguments
      * @return boolean
      */
-    abstract public static function validateCreateRequestArguments($arguments);
+    public static function validateCreateRequestArguments($arguments) {return false;}
 }
