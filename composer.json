@@ -1,5 +1,6 @@
 {
-    "name": "spryng/spryng-payments-api-php",
+    "name": "mage2pro/spryng-sdk",
+    "version": "v1.1.1",
     "description": "A PHP interface to the Spryng Payments platform",
     "license": "BSD-2-Clause",
     "authors": [
