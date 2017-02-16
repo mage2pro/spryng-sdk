@@ -38,6 +38,6 @@ class AccountController extends BaseController{
         $req->setQueryString('/account' . (!$id ? '' : "?_id=$id"));
         $req->addHeader($this->api->getApiKey(), 'X-APIKEY');
         $req->doRequest();
-        return json_decode($req->getResponse());
+        return json_decode($req->getResponse(), true);
 	}
 }
