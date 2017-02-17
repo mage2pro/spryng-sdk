@@ -4,7 +4,7 @@ use SpryngPaymentsApiPhp\Helpers\AccountHelper as H;
 use SpryngPaymentsApiPhp\Object\Account;
 use SpryngPaymentsApiPhp\SpryngPaymentsException as E;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
-class AccountController extends BaseController{
+class AccountController extends BaseController {
 	/**       
 	 * 2017-02-15
 	 * @return Account[]
@@ -14,6 +14,7 @@ class AccountController extends BaseController{
 	;}, $this->res());}
 
     /**
+	 * 2017-02-15
      * @param string $id
      * @return Account
      * @throws E

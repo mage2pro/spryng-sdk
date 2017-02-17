@@ -1,55 +1,45 @@
 <?php
-
-/**
- * @license         Berkeley Software Distribution License (BSD-License 2) http://www.opensource.org/licenses/bsd-license.php
- * @author          Roemer Bakker
- * @copyright       Complexity Software
- */
-
 namespace SpryngPaymentsApiPhp\Controller;
-
-use SpryngPaymentsApiPhp\Client;
-use SpryngPaymentsApiPhp\Helpers\CardHelper;
+use SpryngPaymentsApiPhp\Helpers\CardHelper as H;
 use SpryngPaymentsApiPhp\Object\Card;
+use SpryngPaymentsApiPhp\SpryngPaymentsException as E;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
-
-/**
- * Class CardController
- * @package SpryngPaymentsApiPhp\Controller
- */
-class CardController extends BaseController
-{
-
-    const CARD_URI = "/card";
-
-    public function __construct(Client $api)
-    {
-        parent::__construct($api);
-    }
-
+class CardController extends BaseController {
     /**
      * @param $arguments
      * @return Card
      * @throws \SpryngPaymentsApiPhp\Exception\CardException
      * @throws \SpryngPaymentsApiPhp\Exception\RequestException
      */
-    public function create($arguments)
-    {
-        CardHelper::validateNewCardArguments($arguments);
-
+    public function create($arguments) {
+        H::validateNewCardArguments($arguments);
         $http = new RequestHandler();
         $http->setHttpMethod("POST");
         $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(static::CARD_URI);
+        $http->setQueryString('/card');
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
         $http->setPostParameters($arguments, false);
         $http->doRequest();
-
         $response = $http->getResponse();
-
         $jsonResponse = json_decode($response);
-        $card = CardHelper::fillCard($jsonResponse);
-
+        $card = H::fillCard($jsonResponse);
         return $card;
+    }
+
+	/**
+	 * 2017-02-17
+     * @param string $id
+     * @return Card
+     * @throws E
+     */
+    public function getById($id) {
+     	/** @var RequestHandler $req */
+        $req = new RequestHandler;
+        $req->setHttpMethod('GET');
+        $req->setBaseUrl($this->api->getApiEndpoint());
+        $req->setQueryString("/card/$id");
+        $req->addHeader($this->api->getApiKey(), 'X-APIKEY');
+        $req->doRequest();
+    	return H::fillCard(json_decode($req->getResponse(), false));
     }
 }
