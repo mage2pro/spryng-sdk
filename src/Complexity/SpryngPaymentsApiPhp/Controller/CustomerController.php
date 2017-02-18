@@ -1,13 +1,11 @@
 <?php
-
 namespace SpryngPaymentsApiPhp\Controller;
-
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 use SpryngPaymentsApiPhp\Client;
 use SpryngPaymentsApiPhp\Exception\CustomerException;
 use SpryngPaymentsApiPhp\Exception\RequestException;
 use SpryngPaymentsApiPhp\Helpers\CustomerHelper;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
-
 class CustomerController extends BaseController
 {
     const CUSTOMER_URI = "/customer";
@@ -50,15 +48,12 @@ class CustomerController extends BaseController
         $http->setQueryString(static::CUSTOMER_URI);
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
         $http->setPostParameters($arguments, false);
-        try
-        {
+        try {
             $http->doRequest();
         }
-        catch(RequestException $ex)
-        {
-            var_dump($ex->getMessage());
+		catch (\Exception $e) {
+            var_dump($e->getMessage());
         }
-
         $response = $http->getResponse();
         $json = json_decode($response);
         $newCustomer = CustomerHelper::fillCustomerObject($json);
