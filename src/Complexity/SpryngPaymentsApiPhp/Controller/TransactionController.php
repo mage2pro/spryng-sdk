@@ -32,19 +32,18 @@ final class TransactionController extends BaseController {
     /**
 	 * 2017-02-19
      * (partly) Refund a transaction
-     * @param string $transactionId
-     * @param int|null $amount
-     * @param string|null $reason
+     * @param string $id
+     * @param int|null $amount [optional]
+     * @param string|null $reason [optional]
      * @return bool
      * @throws TE|RE
      */
-    public function refund($transactionId, $amount = null, $reason = null) {
-        $p = ['amount' => $amount ?: $this->get($transactionId)->amount];
-        if ($reason != '' && !is_null($reason)) {
-            $p['reason'] = $reason;
-        }
+    public function refund($id, $amount = null, $reason = null) {
         /** @var object $res */
-        $res = $this->req("/$transactionId/refund", $p)->getResponse();
+        $res = $this->req("/$id/refund", df_clean([
+ 			'amount' => $amount ?: $this->get($id)->amount
+			,'reason' => $reason
+		]))->getResponse();
         return 200 == $res->getResponseCode();
     }
 
