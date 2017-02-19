@@ -4,9 +4,17 @@ use SpryngPaymentsApiPhp\Exception\RequestException as RE;
 use SpryngPaymentsApiPhp\Exception\TransactionException as TE;
 use SpryngPaymentsApiPhp\Helpers\TransactionHelper as H;
 use SpryngPaymentsApiPhp\Object\Transaction as T;
-use SpryngPaymentsApiPhp\Utility\RequestHandler;
+use SpryngPaymentsApiPhp\Utility\RequestHandler as Req;
 // 2017-02-19
 final class TransactionController extends BaseController {
+    /**
+	 * 2017-02-19
+     * @return T[]
+     */
+    public function all() {return array_map(function(array $t) {return
+		H::fillTransaction($t)
+	;}, json_decode($this->req()->getResponse()));}
+	
     /**
 	 * 2017-02-19
      * @param string $id
@@ -20,14 +28,6 @@ final class TransactionController extends BaseController {
 		}
         return H::fillTransaction($resultA[0]);
     }
-
-    /**
-	 * 2017-02-19
-     * @return T[]
-     */
-    public function getAll() {return array_map(function(array $t) {return
-		H::fillTransaction($t)
-	;}, json_decode($this->req()->getResponse()));}
 
     /**
 	 * 2017-02-19
@@ -63,11 +63,11 @@ final class TransactionController extends BaseController {
 	 * 2017-02-19
 	 * @param string|null $suffix [optional]
 	 * @param array(string => string) $p [optional]
-	 * @return RequestHandler
+	 * @return Req
 	 */
     private function req($suffix = null, array $p = []) {
     	/** @var $result $result */
-        $result = new RequestHandler;
+        $result = new Req;
         $result->setHttpMethod('POST');
         $result->setBaseUrl($this->api->getApiEndpoint());
         $result->setQueryString("/transaction$suffix");
