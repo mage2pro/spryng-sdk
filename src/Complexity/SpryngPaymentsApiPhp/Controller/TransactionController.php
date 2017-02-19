@@ -67,9 +67,9 @@ class TransactionController extends BaseController
     /**
      * (partly) Refund a transaction
      *
-     * @param $transactionId
-     * @param null $amount
-     * @param null $reason
+     * @param string $transactionId
+     * @param int|null $amount
+     * @param string|null $reason
      * @return bool
      * @throws TransactionException
      * @throws \SpryngPaymentsApiPhp\Exception\RequestException
