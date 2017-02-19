@@ -1,108 +1,81 @@
 <?php
 namespace SpryngPaymentsApiPhp\Controller;
-use SpryngPaymentsApiPhp\Exception\TransactionException;
-use SpryngPaymentsApiPhp\Helpers\TransactionHelper;
-use SpryngPaymentsApiPhp\Object\Transaction;
+use SpryngPaymentsApiPhp\Exception\RequestException as RE;
+use SpryngPaymentsApiPhp\Exception\TransactionException as TE;
+use SpryngPaymentsApiPhp\Helpers\TransactionHelper as H;
+use SpryngPaymentsApiPhp\Object\Transaction as T;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
-class TransactionController extends BaseController {
+// 2017-02-19
+final class TransactionController extends BaseController {
     /**
-     * @return array
+	 * 2017-02-19
+     * @param string $id
+     * @return T
+     * @throws TE
      */
-    public function getAll() {
-        $http = new RequestHandler();
-        $http->setHttpMethod('GET');
-        $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(static::TRANSACTION_URI);
-        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        $http->doRequest();
-        $response = $http->getResponse();
-        $jsonResponse = json_decode($response);
-        $transactions = array();
-        foreach($jsonResponse as $key => $transaction) {
-            $transactionObj = TransactionHelper::fillTransaction($transaction);
-            array_push($transactions, $transactionObj);
-        }
-        return $transactions;
+    public function get($id) {
+    	/** @var array(string => mixed) $resultA */
+        if (!($resultA = json_decode($this->req("?_id={$id}")->getResponse()))) {
+ 			throw new TE('Transaction not found', 202);
+		}
+        return H::fillTransaction($resultA[0]);
     }
 
     /**
+	 * 2017-02-19
+     * @return T[]
+     */
+    public function getAll() {return array_map(function(array $t) {return
+		H::fillTransaction($t)
+	;}, json_decode($this->req()->getResponse()));}
+
+    /**
+	 * 2017-02-19
      * (partly) Refund a transaction
      * @param string $transactionId
      * @param int|null $amount
      * @param string|null $reason
      * @return bool
-     * @throws TransactionException
-     * @throws \SpryngPaymentsApiPhp\Exception\RequestException
+     * @throws TE|RE
      */
     public function refund($transactionId, $amount = null, $reason = null) {
-        $queryString = self::$BASE . '/'. $transactionId . self::REFUND_TRANSACTION_URI;
-        $arguments = array();
-        if (is_null($amount)) {
-            $amount = $this->getTransactionById($transactionId)->amount;
-        }
-        $arguments['amount'] = $amount;
+        $p = ['amount' => $amount ?: $this->get($transactionId)->amount];
         if ($reason != '' && !is_null($reason)) {
-            $arguments['reason'] = $reason;
+            $p['reason'] = $reason;
         }
-        $http = new RequestHandler();
-        $http->setHttpMethod('POST');
-        $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString($queryString);
-        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        $http->setPostParameters($arguments);
-        $http->doRequest();
-        return $http->getResponseCode() == 200 ? true : false;
+        /** @var object $res */
+        $res = $this->req("/$transactionId/refund", $p)->getResponse();
+        return 200 == $res->getResponseCode();
     }
 
     /**
-     * @param $id
-     * @return Transaction
-     * @throws TransactionException
+	 * 2017-02-19
+     * @param array(string => string) $p
+     * @return T
+     * @throws TE|RE
      */
-    public function getTransactionById($id) {
-        $http = new RequestHandler();
-        $http->setHttpMethod('GET');
-        $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(self::$BASE . "?_id={$id}");
-        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        $http->doRequest();
-        $response = $http->getResponse();
-        $jsonResponse = json_decode($response);
-        if (count($jsonResponse) > 0) {
-            $transaction = TransactionHelper::fillTransaction($jsonResponse[0]);
-        }
-        else {
-            throw new TransactionException('Transaction not found', 202);
-        }
-        return $transaction;
-    }
-
-    /**
-     * @param $arguments
-     * @return Transaction
-     * @throws TransactionException
-     * @throws \SpryngPaymentsApiPhp\Exception\RequestException
-     */
-    public function create($arguments) {
-        TransactionHelper::validateNewTransactionArguments($arguments);
-        $http = new RequestHandler();
-        $http->setHttpMethod('POST');
-        $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(self::$BASE);
-        $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        $http->setPostParameters($arguments, false);
-        $http->doRequest();
-        $response = $http->getResponse();
-        $jsonResponse = json_decode($response);
-        $newTransaction = TransactionHelper::fillTransaction($jsonResponse);
-        return $newTransaction;
+    public function create(array $p) {
+        H::validateNewTransactionArguments($p);
+        return H::fillTransaction(json_decode($this->req(null, $p)->getResponse()));
     }
 
 	/**
 	 * 2017-02-19
-	 * @var string
+	 * @param string|null $suffix [optional]
+	 * @param array(string => string) $p [optional]
+	 * @return RequestHandler
 	 */
-    private static $BASE = '/transaction';
-    const REFUND_TRANSACTION_URI = '/refund';
-    const ACCOUNT_SEARCH_URI = '/account?_id=';    
+    private function req($suffix = null, array $p = []) {
+    	/** @var $result $result */
+        $result = new RequestHandler;
+        $result->setHttpMethod('POST');
+        $result->setBaseUrl($this->api->getApiEndpoint());
+        $result->setQueryString("/transaction$suffix");
+        $result->addHeader($this->api->getApiKey(), 'X-APIKEY');
+        if ($p) {
+			$result->setPostParameters($p, false);
+		}
+        $result->doRequest();
+        return $result;
+	}
 }
