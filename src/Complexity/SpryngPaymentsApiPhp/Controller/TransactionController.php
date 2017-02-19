@@ -18,6 +18,7 @@ final class TransactionController extends BaseController {
 	/**
 	 * 2017-02-19
 	 * https://api.spryngpayments.com/v1/#operation/captureTransaction
+	 * https://mage2.pro/t/2850
 	 * @param string $id
 	 * @param int|null $amount [optional]
 	 * @return T
@@ -71,6 +72,7 @@ final class TransactionController extends BaseController {
 	/**
 	 * 2017-02-19
 	 * https://api.spryngpayments.com/v1/#operation/voidAuthTransaction
+	 * https://mage2.pro/t/2851
 	 * @param string $id
 	 * @return T
 	 * @throws TE|RE
