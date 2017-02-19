@@ -41,8 +41,7 @@ final class TransactionController extends BaseController {
     public function refund($id, $amount = null, $reason = null) {
         /** @var object $res */
         $res = $this->req("/$id/refund", df_clean([
- 			'amount' => $amount ?: $this->get($id)->amount
-			,'reason' => $reason
+ 			'amount' => $amount ?: $this->get($id)->amount, 'reason' => $reason
 		]))->getResponse();
         return 200 == $res->getResponseCode();
     }
@@ -53,10 +52,9 @@ final class TransactionController extends BaseController {
      * @return T
      * @throws TE|RE
      */
-    public function create(array $p) {
-        H::validateNewTransactionArguments($p);
-        return H::fillTransaction(json_decode($this->req(null, $p)->getResponse()));
-    }
+    public function create(array $p) {return H::fillTransaction(json_decode($this->req(
+    	null, H::validateCreate($p)
+	)->getResponse()));}
 
 	/**
 	 * 2017-02-19
