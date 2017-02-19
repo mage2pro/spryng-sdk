@@ -35,7 +35,7 @@ class TransactionController extends BaseController {
      * @throws \SpryngPaymentsApiPhp\Exception\RequestException
      */
     public function refund($transactionId, $amount = null, $reason = null) {
-        $queryString = self::TRANSACTION_URI . '/'. $transactionId . self::REFUND_TRANSACTION_URI;
+        $queryString = self::$BASE . '/'. $transactionId . self::REFUND_TRANSACTION_URI;
         $arguments = array();
         if (is_null($amount)) {
             $amount = $this->getTransactionById($transactionId)->amount;
@@ -63,7 +63,7 @@ class TransactionController extends BaseController {
         $http = new RequestHandler();
         $http->setHttpMethod('GET');
         $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(static::TRANSACTION_URI.'?_id='.$id);
+        $http->setQueryString(self::$BASE . "?_id={$id}");
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
         $http->doRequest();
         $response = $http->getResponse();
@@ -88,7 +88,7 @@ class TransactionController extends BaseController {
         $http = new RequestHandler();
         $http->setHttpMethod('POST');
         $http->setBaseUrl($this->api->getApiEndpoint());
-        $http->setQueryString(static::TRANSACTION_URI);
+        $http->setQueryString(self::$BASE);
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
         $http->setPostParameters($arguments, false);
         $http->doRequest();
@@ -97,8 +97,12 @@ class TransactionController extends BaseController {
         $newTransaction = TransactionHelper::fillTransaction($jsonResponse);
         return $newTransaction;
     }
-    
-    const TRANSACTION_URI = '/transaction';
+
+	/**
+	 * 2017-02-19
+	 * @var string
+	 */
+    private static $BASE = '/transaction';
     const REFUND_TRANSACTION_URI = '/refund';
     const ACCOUNT_SEARCH_URI = '/account?_id=';    
 }
