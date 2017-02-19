@@ -17,6 +17,7 @@ final class TransactionController extends BaseController {
 
 	/**
 	 * 2017-02-19
+	 * https://api.spryngpayments.com/v1/#operation/captureTransaction
 	 * @param string $id
 	 * @param int|null $amount [optional]
 	 * @return T
@@ -66,6 +67,17 @@ final class TransactionController extends BaseController {
 		]))->getResponse();
 		return 200 == $res->getResponseCode();
 	}
+
+	/**
+	 * 2017-02-19
+	 * https://api.spryngpayments.com/v1/#operation/voidAuthTransaction
+	 * @param string $id
+	 * @return T
+	 * @throws TE|RE
+	 */
+	public function void($id) {return H::fillTransaction(json_decode(
+		$this->req("/$id/void")->getResponse()
+	));}
 
 	/**
 	 * 2017-02-19
