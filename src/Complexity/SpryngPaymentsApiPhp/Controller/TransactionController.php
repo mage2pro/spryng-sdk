@@ -13,7 +13,28 @@ final class TransactionController extends BaseController {
      */
     public function all() {return array_map(function(array $t) {return
 		H::fillTransaction($t)
-	;}, json_decode($this->req()->getResponse()));}
+	;}, json_decode($this->req(null, [], 'GET')->getResponse()));}
+
+    /**
+	 * 2017-02-19
+     * @param string $id
+     * @param int|null $amount [optional]
+     * @return T
+     * @throws TE|RE
+     */
+    public function capture($id, $amount = null) {return H::fillTransaction(json_decode(
+    	$this->req("/$id/capture", ['amount' => $amount ?: $this->get($id)->amount])->getResponse()
+	));}
+
+    /**
+	 * 2017-02-19
+     * @param array(string => string) $p
+     * @return T
+     * @throws TE|RE
+     */
+    public function create(array $p) {return H::fillTransaction(json_decode($this->req(
+    	null, H::validateCreate($p)
+	)->getResponse()));}
 	
     /**
 	 * 2017-02-19
@@ -23,7 +44,7 @@ final class TransactionController extends BaseController {
      */
     public function get($id) {
     	/** @var array(string => mixed) $resultA */
-        if (!($resultA = json_decode($this->req("?_id={$id}")->getResponse()))) {
+        if (!($resultA = json_decode($this->req("?_id={$id}", [], 'GET')->getResponse()))) {
  			throw new TE('Transaction not found', 202);
 		}
         return H::fillTransaction($resultA[0]);
@@ -46,26 +67,17 @@ final class TransactionController extends BaseController {
         return 200 == $res->getResponseCode();
     }
 
-    /**
-	 * 2017-02-19
-     * @param array(string => string) $p
-     * @return T
-     * @throws TE|RE
-     */
-    public function create(array $p) {return H::fillTransaction(json_decode($this->req(
-    	null, H::validateCreate($p)
-	)->getResponse()));}
-
 	/**
 	 * 2017-02-19
 	 * @param string|null $suffix [optional]
 	 * @param array(string => string) $p [optional]
+	 * @param string $method [optional]
 	 * @return Req
 	 */
-    private function req($suffix = null, array $p = []) {
+    private function req($suffix = null, array $p = [], $method = 'POST') {
     	/** @var $result $result */
         $result = new Req;
-        $result->setHttpMethod('POST');
+        $result->setHttpMethod($method);
         $result->setBaseUrl($this->api->getApiEndpoint());
         $result->setQueryString("/transaction$suffix");
         $result->addHeader($this->api->getApiKey(), 'X-APIKEY');
