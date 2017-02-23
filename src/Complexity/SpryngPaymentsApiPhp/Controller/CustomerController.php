@@ -1,10 +1,9 @@
 <?php
 namespace SpryngPaymentsApiPhp\Controller;
-use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use GuzzleHttp\Exception\ClientException as E;
 use SpryngPaymentsApiPhp\Client;
-use SpryngPaymentsApiPhp\Exception\CustomerException;
-use SpryngPaymentsApiPhp\Exception\RequestException;
-use SpryngPaymentsApiPhp\Helpers\CustomerHelper;
+use SpryngPaymentsApiPhp\Helpers\CustomerHelper as H;
+use SpryngPaymentsApiPhp\Object\Customer as lCustomer;
 use SpryngPaymentsApiPhp\Utility\RequestHandler;
 class CustomerController extends BaseController
 {
@@ -15,32 +14,25 @@ class CustomerController extends BaseController
         parent::__construct($api);
     }
 
-    public function getCustomerById($id)
-    {
+	/**
+	 * 2017-02-23
+	 * @param string $id
+	 * @return lCustomer|null
+	 */
+    public function getById($id) {
         $http = new RequestHandler();
         $http->setHttpMethod("GET");
         $http->setBaseUrl($this->api->getApiEndpoint() . self::CUSTOMER_URI . '/' . $id);
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        $http->doRequest();
-
-        $response = $http->getResponse();
-        $jsonResponse = json_decode($response);
-
-        if (count($jsonResponse))
-        {
-            $customer = CustomerHelper::fillCustomerObject($jsonResponse);
-        }
-        else
-        {
-            throw new CustomerException("Customer not found", 501);
-        }
-
-        return $customer;
+        /** @var bool $error */
+        $error = false;
+        try {$http->doRequest();} catch (E $e) {$error = true;}
+        return $error || !($json = json_decode($http->getResponse())) ? null : H::fill($json);
     }
 
     public function create($arguments)
     {
-        CustomerHelper::validateNewCustomerArguments($arguments);
+        H::validateNewCustomerArguments($arguments);
 
         $http = new RequestHandler();
         $http->setHttpMethod("POST");
@@ -56,7 +48,7 @@ class CustomerController extends BaseController
         }
         $response = $http->getResponse();
         $json = json_decode($response);
-        $newCustomer = CustomerHelper::fillCustomerObject($json);
+        $newCustomer = H::fill($json);
 
         return $newCustomer;
     }

@@ -15,7 +15,7 @@ class CustomerHelper
         'mandates'
     ];
 
-    public static function fillCustomerObject($response)
+    public static function fill($response)
     {
         $customer = new Customer();
 
