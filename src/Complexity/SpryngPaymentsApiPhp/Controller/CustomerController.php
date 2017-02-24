@@ -17,17 +17,16 @@ class CustomerController extends BaseController
 	/**
 	 * 2017-02-23
 	 * @param string $id
-	 * @return lCustomer|null
+	 * @return lCustomer
+	 * @throws E
 	 */
     public function getById($id) {
         $http = new RequestHandler();
         $http->setHttpMethod("GET");
         $http->setBaseUrl($this->api->getApiEndpoint() . self::CUSTOMER_URI . '/' . $id);
         $http->addHeader($this->api->getApiKey(), 'X-APIKEY');
-        /** @var bool $error */
-        $error = false;
-        try {$http->doRequest();} catch (E $e) {$error = true;}
-        return $error || !($json = json_decode($http->getResponse())) ? null : H::fill($json);
+        $http->doRequest();
+        return H::fill(json_decode($http->getResponse()));
     }
 
     public function create($arguments)
