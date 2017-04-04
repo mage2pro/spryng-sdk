@@ -26,7 +26,11 @@ class AccountHelper extends Helper
 
         foreach($jsonObject as $key => $parameter)
         {
-            if ( ! is_array($account->$key) )
+        	// 2017-04-04
+			// Сегодня впервые случился сбой:
+			// Undefined property: SpryngPaymentsApiPhp\Object\Account::$disabled
+			// Видимо, в API что-то поменялось.
+            if ( ! is_array(dfo($account, $key)) )
             {
                 $account->$key = $parameter;
             }
