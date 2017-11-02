@@ -62,10 +62,9 @@ final class TransactionController extends BaseController {
 	 * @throws TE|RE
 	 */
 	public function refund($id, $amount = null, $reason = null) {
-		/** @var object $res */
 		$res = $this->req("/$id/refund", df_clean([
 			'amount' => $amount ?: $this->get($id)->amount, 'reason' => $reason
-		]))->getResponse();
+		]))->getResponse(); /** @var object $res */
 		return 200 == $res->getResponseCode();
 	}
 
