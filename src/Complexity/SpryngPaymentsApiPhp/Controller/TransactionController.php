@@ -72,13 +72,12 @@ final class TransactionController extends BaseController {
 	 * 2017-02-19
 	 * https://api.spryngpayments.com/v1/#operation/voidAuthTransaction
 	 * https://mage2.pro/t/2851
+	 * @used-by \Dfe\Spryng\Facade\Charge::void()
 	 * @param string $id
 	 * @return T
 	 * @throws TE|RE
 	 */
-	public function void($id) {return H::fillTransaction(json_decode(
-		$this->req("/$id/void")->getResponse()
-	));}
+	function void($id) {return H::fillTransaction(json_decode($this->req("/$id/void")->getResponse()));}
 
 	/**
 	 * 2017-02-19
